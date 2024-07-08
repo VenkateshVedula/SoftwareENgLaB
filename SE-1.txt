@@ -1,0 +1,67 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to calculate temperature using a quadratic equation
+def temperature_at_time(t, a, b, c):
+    """
+    Calculate temperature T(t) using the quadratic equation.
+    """
+    return a * t ** 2 + b * t + c
+
+# Example coefficients (can be hard-coded)
+a_hardcoded = 0.1
+b_hardcoded = 1.5
+c_hardcoded = 10.0
+
+# Function to get coefficients from keyboard input
+def get_coefficients_from_keyboard():
+    a = float(input("Enter coefficient a: "))
+    b = float(input("Enter coefficient b: "))
+    c = float(input("Enter coefficient c: "))
+    return a, b, c
+
+# Function to get coefficients from a file
+def get_coefficients_from_file(filename):
+    with open(filename, 'r') as file:
+        coefficients = [float(line.strip()) for line in file]
+    return coefficients[0], coefficients[1], coefficients[2]
+
+# Main function to run the temperature modeling
+def main():
+    print("Welcome to Weather Modeling using Quadratic Equation\n")
+
+    # Choose input method (hard-coded, keyboard, file)
+    choice = input("Enter input method ('h' for hard-coded, 'k' for keyboard, 'f' for file): ")
+
+    if choice == 'h':
+        a, b, c = a_hardcoded, b_hardcoded, c_hardcoded
+    elif choice == 'k':
+        a, b, c = get_coefficients_from_keyboard()
+    elif choice == 'f':
+        filename = input("Enter filename containing coefficients: ")
+        a, b, c = get_coefficients_from_file(filename)
+    else:
+        print("Invalid choice. Please enter 'h', 'k', or 'f'.")
+        return
+
+    # Time array for plotting (optional)
+    t = np.linspace(0, 10, 100)  # Time from 0 to 10 hours, 100 points
+
+    # Calculate temperatures
+    temperatures = temperature_at_time(t, a, b, c)
+
+    # Print coefficients and plot (optional)
+    print(f"\nCoefficients: a={a}, b={b}, c={c}\n")
+
+    # Plotting (optional)
+    plt.figure(figsize=(10, 6))
+    plt.plot(t, temperatures, label='Temperature (T(t))')
+    plt.title('Temperature Variation over Time')
+    plt.xlabel('Time (hours)')
+    plt.ylabel('Temperature')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+if __name__ == "__main__":
+    main()
